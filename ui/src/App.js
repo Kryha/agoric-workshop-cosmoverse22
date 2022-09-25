@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import './App.css';
-import Header from './components/Header.jsx';
 import EnableAppDialog from './components/EnableAppDialog.jsx';
+import Header from './components/Header.jsx';
 import Input from './components/input.jsx';
+import NFTCard from './components/NftCard.jsx';
 
 import { useAgoricContext } from './service/agoric.js';
 import { mintNfts } from './service/actions.js';
@@ -22,6 +23,12 @@ const formContainer = {
   background: 'transparent',
   padding: '40px',
   border: '2px solid #00FF5F',
+};
+
+const nftsContainer = {
+  ...mainContainer,
+  width: '80%',
+  background: 'transparent',
 };
 
 const buttonStyle = {
@@ -78,6 +85,11 @@ function App() {
           <button style={buttonStyle} onClick={handleSubmit}>
             Mint NFT
           </button>
+        </div>
+        <div style={nftsContainer}>
+          {nfts.map((nft) => {
+            <NFTCard nft={nft} />;
+          })}
         </div>
       </div>
     </div>
