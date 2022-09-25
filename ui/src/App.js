@@ -12,7 +12,6 @@ const mainContainer = {
   display: 'flex',
   flexDirection: 'column',
   width: '100vw',
-  height: '30vh',
   alignItems: 'center',
   borderRadius: '6px',
 };
@@ -27,7 +26,10 @@ const formContainer = {
 
 const nftsContainer = {
   ...mainContainer,
+  flexDirection: 'row',
+  flexWrap: 'wrap',
   width: '80%',
+  maxWidth: '80vw',
   background: 'transparent',
 };
 
@@ -48,7 +50,8 @@ function App() {
   const [agoric, agoricDispatch] = useAgoricContext();
   const [url, setUrl] = useState('');
   const [name, setName] = useState('');
-  console.log(agoric.purses.nft[0].currentAmount.value[0].url);
+  console.log(agoric.purses);
+
   const handleName = (event) => {
     setName(event.currentTarget.value);
   };
@@ -85,16 +88,12 @@ function App() {
           </button>
         </div>
         <div style={nftsContainer}>
-          {nfts.map((nft) => {
-            <NFTCard nft={nft} />;
-          })}
+          {agoric.purses.nft.length > 0
+            ? agoric.purses.nft[0].currentAmount.value.map((nft) => {
+                return <NFTCard key={nft.id} nft={nft} />;
+              })
+            : ''}
         </div>
-      </div>
-      <div style={mainContainer}>
-        <img
-          style={imgStyle}
-          src={agoric.purses.nft[0].currentAmount.value[0].url}
-        />
       </div>
     </div>
   );

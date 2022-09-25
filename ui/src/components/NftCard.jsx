@@ -2,9 +2,10 @@ import React from 'react';
 
 const nftContainer = {
   display: 'flex',
-  width: '100%',
+  width: '30%',
   flexDirection: 'column',
   alignContent: 'flex-start',
+  paddingRight: '20px',
 };
 
 const inputHeader = {
@@ -16,10 +17,11 @@ const inputHeader = {
 };
 
 const NFTCard = ({ nft }) => {
+  console.log(nft);
   return (
     <div style={nftContainer}>
       <h4 style={inputHeader}>{nft.name}:</h4>
-      <img url={nft.url} />
+      <img src={nft.url} />
     </div>
   );
 };
