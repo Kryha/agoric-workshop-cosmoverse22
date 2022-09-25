@@ -3,46 +3,20 @@ import './App.css';
 import Header from './components/Header.jsx';
 import EnableAppDialog from './components/EnableAppDialog.jsx';
 import Input from './components/input.jsx';
-
 import { useAgoricContext } from './service/agoric.js';
 import { mintNfts } from './service/actions.js';
-
-const mainContainer = {
-  display: 'flex',
-  flexDirection: 'column',
-  width: '100vw',
-  height: '30vh',
-  alignItems: 'center',
-  borderRadius: '6px',
-};
-
-const formContainer = {
-  ...mainContainer,
-  width: '450px',
-  background: 'transparent',
-  padding: '40px',
-  border: '2px solid #00FF5F',
-};
-
-const buttonStyle = {
-  borderRadius: '4px',
-  padding: '6px 35px',
-  marginTop: '30px',
-  alignSelf: 'flex-end',
-  background: 'transparent',
-  color: '#00FF5F',
-  cursor: 'pointer',
-  border: '2px solid #00FF5F',
-  textTransform: 'uppercase',
-  fontWeight: 'bold',
-};
+import {
+  buttonStyle,
+  formContainer,
+  imgStyle,
+  mainContainer,
+} from './app-styles';
 
 function App() {
-  // useEffect(() => {}, []);
   const [agoric, agoricDispatch] = useAgoricContext();
   const [url, setUrl] = useState('');
   const [name, setName] = useState('');
-
+  console.log(agoric.purses.nft[0].currentAmount.value[0].url);
   const handleName = (event) => {
     setName(event.currentTarget.value);
   };
@@ -52,8 +26,7 @@ function App() {
   };
 
   const handleSubmit = async () => {
-    console.log('fuck yeah boyyyy', name, url);
-    console.log(await mintNfts(agoric, [{ name, url }]));
+    await mintNfts(agoric, [{ name, url }]);
   };
 
   return (
@@ -79,6 +52,12 @@ function App() {
             Mint NFT
           </button>
         </div>
+      </div>
+      <div style={mainContainer}>
+        <img
+          style={imgStyle}
+          src={agoric.purses.nft[0].currentAmount.value[0].url}
+        />
       </div>
     </div>
   );

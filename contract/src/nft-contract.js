@@ -66,6 +66,7 @@ const start = async (zcf) => {
         "Mints an NFT via mintGains based on the proposal's want",
       ),
     getIssuer: () => nftIssuer,
+    getContractNfts: () => contractSeat.getCurrentAllocation(),
   });
 
   return harden({ creatorFacet, publicFacet });
