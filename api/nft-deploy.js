@@ -19,12 +19,11 @@ const PRICE_PER_CARD_IN_MONEY_UNITS = 1n;
 // script ends, connections to any of its objects are severed.
 
 /**
- * @typedef {Object} DeployPowers The special powers that `agoric deploy` gives us
+ * @typedef {object} DeployPowers The special powers that `agoric deploy` gives us
  * @property {(path: string) => Promise<{ moduleFormat: string, source: string }>} bundleSource
  * @property {(path: string) => string} pathResolve
  * @property {(path: string, opts?: any) => Promise<any>} installUnsafePlugin
- *
- * @typedef {Object} Board
+ * @typedef {object} Board
  * @property {(id: string) => any} getValue
  * @property {(value: any) => string} getId
  * @property {(value: any) => boolean} has
@@ -40,7 +39,10 @@ const API_PORT = process.env.API_PORT || '8000';
  * A promise for the references available from REPL home
  * @param {DeployPowers} powers
  */
-export default async function deployApi(homePromise, { bundleSource, pathResolve }) {
+export default async function deployApi(
+  homePromise,
+  { bundleSource, pathResolve },
+) {
   // Let's wait for the promise to resolve.
   const home = await homePromise;
 
@@ -66,26 +68,20 @@ export default async function deployApi(homePromise, { bundleSource, pathResolve
   // To get the backend of our dapp up and running, first we need to
   // grab the installation that our contract deploy script put
   // in the public board.
-  const {
-    INSTALLATION_BOARD_ID,
-    CONTRACT_NAME,
-  } = installationConstants;
+  const { INSTALLATION_BOARD_ID, CONTRACT_NAME } = installationConstants;
   const installation = await E(board).getValue(INSTALLATION_BOARD_ID);
-  
+
   // Second, we can use the installation to create a new instance of
   // our contract code on Zoe. A contract instance is a running
   // program that can take offers through Zoe. Making an instance will
   // give us a `creatorFacet` that will let us make invitations we can
   // send to users.
 
-const {
+  const {
     creatorFacet: nftCreatorFacet,
     publicFacet: nftPublicFacet,
-    instance: instance,
-  } = await E(zoe).startInstance(
-    installation,
-  );
-  console.log("INSTANCE: ", instance);
+    instance,
+  } = await E(zoe).startInstance(installation);
 
   /**
    * @type {ERef<Issuer>}
@@ -113,19 +109,16 @@ const {
   const invitationIssuerP = E(zoe).getInvitationIssuer();
   const invitationBrandP = E(invitationIssuerP).getBrand();
 
-  console.log("INVITES", invitationBrandP)
   const nftIssuerP = E(nftPublicFacet).getIssuer();
-  const [
-    nftIssuer,
-    nftBrand,
-    invitationIssuer,
-    invitationBrand,
-  ] = await Promise.all([
-    nftIssuerP,
-    E(nftIssuerP).getBrand(),
-    invitationIssuerP,
-    invitationBrandP,
-  ]);
+  const mint = E(nftCreatorFacet).mintNftPrivate(nfts);
+  console.log(mint);
+  const [nftIssuer, nftBrand, invitationIssuer, invitationBrand] =
+    await Promise.all([
+      nftIssuerP,
+      E(nftIssuerP).getBrand(),
+      invitationIssuerP,
+      invitationBrandP,
+    ]);
 
   const [
     INSTANCE_BOARD_ID,
@@ -175,4 +168,4 @@ const {
 export default ${JSON.stringify(dappConstants, undefined, 2)};
 `;
   await fs.promises.writeFile(defaultsFile, defaultsContents);
-};
+}

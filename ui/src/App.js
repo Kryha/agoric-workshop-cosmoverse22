@@ -45,11 +45,10 @@ const buttonStyle = {
 };
 
 function App() {
-  // useEffect(() => {}, []);
   const [agoric, agoricDispatch] = useAgoricContext();
   const [url, setUrl] = useState('');
   const [name, setName] = useState('');
-
+  console.log(agoric.purses.nft[0].currentAmount.value[0].url);
   const handleName = (event) => {
     setName(event.currentTarget.value);
   };
@@ -59,8 +58,7 @@ function App() {
   };
 
   const handleSubmit = async () => {
-    console.log('fuck yeah boyyyy', name, url);
-    console.log(await mintNfts(agoric, [{ name, url }]));
+    await mintNfts(agoric, [{ name, url }]);
   };
 
   return (
@@ -91,6 +89,12 @@ function App() {
             <NFTCard nft={nft} />;
           })}
         </div>
+      </div>
+      <div style={mainContainer}>
+        <img
+          style={imgStyle}
+          src={agoric.purses.nft[0].currentAmount.value[0].url}
+        />
       </div>
     </div>
   );
