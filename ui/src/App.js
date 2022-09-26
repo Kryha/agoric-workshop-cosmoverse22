@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
+import { E } from '@endo/eventual-send';
 import Header from './components/Header.jsx';
 import EnableAppDialog from './components/EnableAppDialog.jsx';
 import Input from './components/input.jsx';
@@ -10,13 +11,13 @@ import {
   formContainer,
   imgStyle,
   mainContainer,
-} from './app-styles';
+} from './app-styles.js';
 
 function App() {
   const [agoric, agoricDispatch] = useAgoricContext();
   const [url, setUrl] = useState('');
   const [name, setName] = useState('');
-  console.log(agoric.purses.nft[0].currentAmount.value[0].url);
+  // console.log(agoric.purses.nft[0].currentAmount.value[0].url);
   const handleName = (event) => {
     setName(event.currentTarget.value);
   };
@@ -27,6 +28,10 @@ function App() {
 
   const handleSubmit = async () => {
     await mintNfts(agoric, [{ name, url }]);
+  };
+
+  const getContrctNfts = async () => {
+    console.log(await E(agoric.contracts.nft.publicFacet).getContractNfts());
   };
 
   return (
@@ -53,10 +58,13 @@ function App() {
           </button>
         </div>
       </div>
+      <button style={buttonStyle} onClick={getContrctNfts}>
+        Get Contract Nfts
+      </button>
       <div style={mainContainer}>
         <img
           style={imgStyle}
-          src={agoric.purses.nft[0].currentAmount.value[0].url}
+          // src={agoric.purses.nft[0].currentAmount.value[0].url}
         />
       </div>
     </div>

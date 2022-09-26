@@ -28,7 +28,7 @@ const start = async (zcf) => {
   const mintNftPrivate = async (nfts) => {
     state.count += 1;
     const nftsAmount = AmountMath.make(nftBrand, harden(nfts));
-    nftMint.mintGains({ nft: nftsAmount }, state.seat);
+    nftMint.mintGains({ Nft: nftsAmount }, state.seat);
     return 'NFTs was minted successfully';
   };
 

@@ -21,11 +21,10 @@ const {
   INSTANCE_BOARD_ID,
   INVITE_BRAND_BOARD_ID,
   INSTALLATION_BOARD_ID,
-  issuerBoardIds: { Money: MONEY_ISSUER_BOARD_ID, Nft: NFT_ISSUER_BOARD_ID },
+  issuerBoardIds: { Nft: NFT_ISSUER_BOARD_ID },
   brandBoardIds: { Money: MONEY_BRAND_BOARD_ID, Nft: NFT_BRAND_BOARD_ID },
 } = dappConstants;
 
-console.log(dappConstants, MONEY_ISSUER_BOARD_ID);
 const initialState = {
   status: {
     walletConnected: false,
