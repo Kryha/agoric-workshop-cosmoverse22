@@ -11,11 +11,8 @@ import { Far } from '@endo/marshal';
  */
 const start = async (zcf) => {
   // TODO: Create asset mint, issuer, and brand
-  const nftMint = await zcf.makeZCFMint('COSMOVERSE22', AssetKind.SET);
-  const { issuer: nftIssuer, brand: nftBrand } = nftMint.getIssuerRecord();
 
   // TODO: Create contract seat
-  const { zcfSeat: contractSeat } = zcf.makeEmptySeatKit();
 
   const state = {
     count: 0,
@@ -32,7 +29,7 @@ const start = async (zcf) => {
       return { ...nft, event: 'COSMOVERSE22' };
     });
     // TODO: define NFT amount
-    const nftsAmount = AmountMath.make(nftBrand, harden(adjustedNfts));
+
     nftMint.mintGains({ Nft: nftsAmount }, state.seat);
 
     state.count += 1;
@@ -53,7 +50,7 @@ const start = async (zcf) => {
     });
 
     // TODO: define NFT amount
-    const nftsAmount = AmountMath.make(nftBrand, harden(nfts));
+
     nftMint.mintGains({ Nft: nftsAmount }, seat);
 
     seat.exit();
