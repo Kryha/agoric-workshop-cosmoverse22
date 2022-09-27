@@ -95,14 +95,6 @@ export default async function deployApi(
     E(moneyBrandP).getDisplayInfo(),
   ]);
 
-  // const encodedNfts = nfts.map()
-  // const hardenedNfts = harden(nfts);
-  // const moneyValue =
-  //   PRICE_PER_CARD_IN_MONEY_UNITS * 1n ** BigInt(decimalPlaces);
-  // const minBidPerCard = AmountMath.make(moneyBrand, moneyValue);
-
-  // const chainTimerService = await chainTimerServiceP;
-
   console.log('- SUCCESS! contract instance is running on Zoe');
 
   console.log('Retrieving Board IDs for issuers and brands');
@@ -112,6 +104,7 @@ export default async function deployApi(
   const nftIssuerP = E(nftPublicFacet).getIssuer();
   const mint = E(nftCreatorFacet).mintNftPrivate(nfts);
   console.log(mint);
+
   const [nftIssuer, nftBrand, invitationIssuer, invitationBrand] =
     await Promise.all([
       nftIssuerP,

@@ -17,10 +17,9 @@ const inputHeader = {
 };
 
 const NFTCard = ({ nft }) => {
-  console.log(nft);
   return (
     <div style={nftContainer}>
-      <h4 style={inputHeader}>{nft.name}:</h4>
+      <h4 style={inputHeader}>{`[${nft.id}] ${nft.name}`}:</h4>
       <img src={nft.url} />
     </div>
   );

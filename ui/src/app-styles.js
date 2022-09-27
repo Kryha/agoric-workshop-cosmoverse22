@@ -33,3 +33,12 @@ export const imgStyle = {
   height: '50px',
   marginTop: '50px',
 };
+
+export const nftsContainer = {
+  ...mainContainer,
+  flexDirection: 'row',
+  flexWrap: 'wrap',
+  width: '80%',
+  maxWidth: '80vw',
+  background: 'transparent',
+};

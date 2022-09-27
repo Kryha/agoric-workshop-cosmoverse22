@@ -5,14 +5,16 @@ import { AssetKind, AmountMath } from '@agoric/ertp';
 import { Far } from '@endo/marshal';
 
 /**
- * This contract mints non-fungible tokens (Nft) and creates a contract
- * instance to auction the Nft in exchange for some sort of money.
+ * This contract mints non-fungible tokens (NFTs)
  *
  * @type {ContractStartFn}
  */
 const start = async (zcf) => {
+  // TODO: Create asset mint, issuer, and brand
   const nftMint = await zcf.makeZCFMint('COSMOVERSE22', AssetKind.SET);
   const { issuer: nftIssuer, brand: nftBrand } = nftMint.getIssuerRecord();
+
+  // TODO: Create contract seat
   const { zcfSeat: contractSeat } = zcf.makeEmptySeatKit();
 
   const state = {
@@ -21,19 +23,24 @@ const start = async (zcf) => {
   };
 
   /**
-   * Mints NFTs
+   * Mints NFTs to a contract seat
    *
-   * @param {object} nfts
+   * @param {object[]} nfts
    */
   const mintNftPrivate = async (nfts) => {
-    state.count += 1;
-    const nftsAmount = AmountMath.make(nftBrand, harden(nfts));
+    const adjustedNfts = nfts.map((nft) => {
+      return { ...nft, event: 'COSMOVERSE22' };
+    });
+    // TODO: define NFT amount
+    const nftsAmount = AmountMath.make(nftBrand, harden(adjustedNfts));
     nftMint.mintGains({ Nft: nftsAmount }, state.seat);
+
+    state.count += 1;
     return 'NFTs was minted successfully';
   };
 
   /**
-   * Mints NFTs via mintGains
+   * Mints NFTs to user seat via mintGains
    *
    * @param {ZCFSeat} seat
    */
@@ -42,15 +49,15 @@ const start = async (zcf) => {
 
     // @ts-ignore
     const nfts = proposal.want.Asset.value.map((nft) => {
-      const id = state.count;
-      return { ...nft, id };
+      return { ...nft, event: 'COSMOVERSE22' };
     });
 
-    state.count += 1;
+    // TODO: define NFT amount
     const nftsAmount = AmountMath.make(nftBrand, harden(nfts));
     nftMint.mintGains({ Nft: nftsAmount }, seat);
 
     seat.exit();
+    state.count += 1;
 
     return 'NFT was minted successfully';
   };
@@ -66,7 +73,7 @@ const start = async (zcf) => {
         "Mints an NFT via mintGains based on the proposal's want",
       ),
     getIssuer: () => nftIssuer,
-    getContractNfts: () => contractSeat.getCurrentAllocation(),
+    getContractNfts: () => state.seat.getCurrentAllocation(),
   });
 
   return harden({ creatorFacet, publicFacet });
