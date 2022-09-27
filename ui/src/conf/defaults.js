@@ -1,4 +1,4 @@
-// GENERATED FROM /Users/carlostrigoseguin/Documents/KRYHA/agoric/cosmoverse/agoric-workshop-cosmoverse22/api/deployAsset.js
+// GENERATED FROM /Users/wietze/Documents/Kryha/clients/agoric/agoric-workshop-cosmoverse22/api/deployAsset.js
 export default {
   "INSTANCE_BOARD_ID": "board01029",
   "INSTALLATION_BOARD_ID": "board03928",
